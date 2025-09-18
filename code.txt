@@ -1,10 +1,10 @@
 #Metagenomic analysis#
 
 #####megahit (v1.2.9)#####
-megahit -1 S1_1.fq.gz -2 S1_2.fq.gz -o S1-out -t 40 --kmin-1pass --mem-flag 2 --verbose
+megahit -1 B1_1.fq.gz -2 B1_2.fq.gz -o B1-out -t 40 --kmin-1pass --mem-flag 2 --verbose
 
 #####maxbin (2.2.7)#####
-run_MaxBin.pl -contig S1contigs.fa -out S1-bin -thread 128 -reads1.1 S1_1.fq.gz -reads1.2 S1_2.fq.gz
+run_MaxBin.pl -contig B1contigs.fa -out B1-bin -thread 128 -reads1.1 B1_1.fq.gz -reads1.2 B1_2.fq.gz
 
 #####checkM2 (1.1.0)#####
 checkm2 predict --threads 30 -x .fasta --input /gpfshddpool/home/checkM2 --output-directory out-qa
@@ -13,17 +13,17 @@ checkm2 predict --threads 30 -x .fasta --input /gpfshddpool/home/checkM2 --outpu
 gtdbtk classify_wf --genome_dir ./bin --out_dir ./gtdbtk_result --skip_ani_screen
 
 #####kofamscan (1.3.0)#####
-exec_annotation -f mapper -o S1-bin.001.txt S1-bin.001.pep --cpu 128 -E 1e-5 -p ./profiles -k ./ko_list 
+exec_annotation -f mapper -o B1-bin.001.txt B1-bin.001.pep --cpu 128 -E 1e-5 -p ./profiles -k ./ko_list 
 
 
 
 #Metatranscriptomic analysis#
 
 #####fastp (0.23.4)#####
-fastp -i L1HJA2300376-S1.R1.raw.fastq.gz -I L1HJA2300376-S1.R2.raw.fastq.gz -o L1HJA2300376-S1_fastp.R1.raw.fastq.gz -O L1HJA2300376-S1_fastp.R2.raw.fastq.gz
+fastp -i B1.R1.raw.fastq.gz -I B1.R2.raw.fastq.gz -o B1_fastp.R1.raw.fastq.gz -O B1_fastp.R2.raw.fastq.gz
 
 #####Salmon (1.10.3)#####
-salmon quant -i ./de-gene -l A --validateMappings --seqBias --gcBias -1 L1HJA2300376-S1.R1.raw.fastq.gz -2 L1HJA2300376-S1.R2.raw.fastq.gz -o S1_quant
+salmon quant -i ./de-gene -l A --validateMappings --seqBias --gcBias -1 B1.R1.raw.fastq.gz -2 B1.R2.raw.fastq.gz -o B1_quant
 
 
 ####Gene Expression Analysis####
